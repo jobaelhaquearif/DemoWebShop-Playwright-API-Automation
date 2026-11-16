@@ -1,0 +1,14 @@
+
+{
+  "invalidLogin": {
+    "email": "Arif@gmail.com",
+    "password": "InvalidPassword123!"
+  },
+  "registration": {
+    "firstName": "Jobael",
+    "lastName": "Arif",
+    "password": "Password@123"
+  },
+  "q3SearchTerm": "14.1-inch Laptop",
+  "q3Quantity": 2
+}
