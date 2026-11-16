@@ -1,0 +1,99 @@
+{
+  "info": {
+    "_postman_id": "2d6e58a3-6dd4-4454-b72e-b4ef08bec456",
+    "name": "Module 09 - JSONPlaceholder Users API",
+    "description": "GET all users, save one ID, then PUT dynamic name/email/company.name.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58568289",
+    "_collection_link": "https://go.postman.co/collection/58568289-2d6e58a3-6dd4-4454-b72e-b4ef08bec456?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "GET - All Users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const users = pm.response.json();",
+              "pm.test('Response is a non-empty array', () => pm.expect(users).to.be.an('array').that.is.not.empty);",
+              "pm.test('Each user has id, name and email', () => users.forEach(u => { pm.expect(u).to.have.property('id'); pm.expect(u.name).to.be.a('string').and.not.empty; pm.expect(u.email).to.be.a('string').and.not.empty; }));",
+              "pm.collectionVariables.set('userId', users[0].id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT - Update User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is successful', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));\nconst response = pm.response.json();\nconst savedId = Number(pm.collectionVariables.get('userId'));\npm.test('Returned ID matches saved ID', () => pm.expect(response.id).to.eql(savedId));\npm.test('Phone is not empty', () => pm.expect(response.phone).to.be.a('string').and.not.empty);\npm.test('Returned name matches updated name', () => { const sentBody = JSON.parse(pm.variables.replaceIn(pm.request.body.raw)); pm.expect(response.name).to.eql(sentBody.name); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": {{userId}},\n  \"name\": \"{{updatedName}}\",\n  \"username\": \"arif_qa\",\n  \"email\": \"{{updatedEmail}}\",\n  \"phone\": \"01675979838\",\n  \"company\": {\n    \"name\": \"{{updatedCompany}}\"\n  }\n}\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users/{{userId}}",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "userId",
+      "value": ""
+    }
+  ]
+}
