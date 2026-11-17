@@ -51,7 +51,16 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test('Status code is successful', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));\nconst response = pm.response.json();\nconst savedId = Number(pm.collectionVariables.get('userId'));\npm.test('Returned ID matches saved ID', () => pm.expect(response.id).to.eql(savedId));\npm.test('Phone is not empty', () => pm.expect(response.phone).to.be.a('string').and.not.empty);\npm.test('Returned name matches updated name', () => { const sentBody = JSON.parse(pm.variables.replaceIn(pm.request.body.raw)); pm.expect(response.name).to.eql(sentBody.name); });"
+              "pm.test('Status code is 200', () => pm.expect(pm.response.code).to.eql(200));\nconst response = pm.response.json();\nconst savedId = Number(pm.collectionVariables.get('userId'));\npm.test('Returned ID matches saved ID', () => pm.expect(response.id).to.eql(savedId));\npm.test('Phone is not empty', () => pm.expect(response.phone).to.be.a('string').and.not.empty);\npm.test('Returned name matches updated name', () => { const sentBody = JSON.parse(pm.variables.replaceIn(pm.request.body.raw)); pm.expect(response.name).to.eql(sentBody.name); });"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const randomNumber = Math.floor(Math.random() * 1000);\r\n\r\npm.collectionVariables.set(\"updatedName\", \"Arif Ahmed \" + randomNumber);\r\npm.collectionVariables.set(\"updatedEmail\", \"arif\" + randomNumber + \"@gmail.com\");\r\npm.collectionVariables.set(\"updatedCompany\", \"Tech Solutions \" + randomNumber);\r\n"
             ]
           }
         }
@@ -93,6 +102,18 @@
   "variable": [
     {
       "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "updatedName",
+      "value": ""
+    },
+    {
+      "key": "updatedEmail",
+      "value": ""
+    },
+    {
+      "key": "updatedCompany",
       "value": ""
     }
   ]
