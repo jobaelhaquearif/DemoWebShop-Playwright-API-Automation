@@ -16,11 +16,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
-              "const users = pm.response.json();",
-              "pm.test('Response is a non-empty array', () => pm.expect(users).to.be.an('array').that.is.not.empty);",
-              "pm.test('Each user has id, name and email', () => users.forEach(u => { pm.expect(u).to.have.property('id'); pm.expect(u.name).to.be.a('string').and.not.empty; pm.expect(u.email).to.be.a('string').and.not.empty; }));",
-              "pm.collectionVariables.set('userId', users[0].id);"
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));\nconst users = pm.response.json();\npm.test('Response is a non-empty array', () => pm.expect(users).to.be.an('array').that.is.not.empty);\npm.test('Each user has id, name and email', () => users.forEach(u => { pm.expect(u).to.have.property('id'); pm.expect(u.name).to.be.a('string').and.not.empty; pm.expect(u.email).to.be.a('string').and.not.empty; }));\npm.collectionVariables.set('userId', users[0].id);\npm.collectionVariables.set('originalPhone', users[0].phone);"
             ]
           }
         }
@@ -51,7 +47,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test('Status code is 200', () => pm.expect(pm.response.code).to.eql(200));\nconst response = pm.response.json();\nconst savedId = Number(pm.collectionVariables.get('userId'));\npm.test('Returned ID matches saved ID', () => pm.expect(response.id).to.eql(savedId));\npm.test('Phone is not empty', () => pm.expect(response.phone).to.be.a('string').and.not.empty);\npm.test('Returned name matches updated name', () => { const sentBody = JSON.parse(pm.variables.replaceIn(pm.request.body.raw)); pm.expect(response.name).to.eql(sentBody.name); });"
+              "pm.test('Status code is 200', () => {\n    pm.expect(pm.response.code).to.eql(200);\n});\n\nconst response = pm.response.json();\nconst savedId = Number(pm.collectionVariables.get('userId'));\nconst originalPhone = pm.collectionVariables.get('originalPhone');\nconst sentBody = JSON.parse(\n    pm.variables.replaceIn(pm.request.body.raw)\n);\n\npm.test('Returned ID matches saved ID', () => {\n    pm.expect(response.id).to.eql(savedId);\n});\n\npm.test('Phone remains unchanged and is not empty', () => {\n    pm.expect(response.phone).to.be.a('string').and.not.empty;\n    pm.expect(response.phone).to.eql(originalPhone);\n});\n\npm.test('Returned name matches updated name', () => {\n    pm.expect(response.name).to.eql(sentBody.name);\n});"
             ]
           }
         },
@@ -75,7 +71,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"id\": {{userId}},\n  \"name\": \"{{updatedName}}\",\n  \"username\": \"arif_qa\",\n  \"email\": \"{{updatedEmail}}\",\n  \"phone\": \"01675979838\",\n  \"company\": {\n    \"name\": \"{{updatedCompany}}\"\n  }\n}\n",
+          "raw": "{\n  \"id\": {{userId}},\n  \"name\": \"{{updatedName}}\",\n  \"username\": \"arif_qa\",\n  \"email\": \"{{updatedEmail}}\",\n  \"phone\": \"{{originalPhone}}\",\n  \"company\": {\n    \"name\": \"{{updatedCompany}}\"\n  }\n}\n",
           "options": {
             "raw": {
               "language": "json"
@@ -114,6 +110,10 @@
     },
     {
       "key": "updatedCompany",
+      "value": ""
+    },
+    {
+      "key": "originalPhone",
       "value": ""
     }
   ]
