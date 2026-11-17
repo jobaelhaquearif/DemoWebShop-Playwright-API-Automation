@@ -49,6 +49,7 @@ This project automates end-to-end UI test scenarios for **Demo Web Shop** using 
   ```bash
   npx playwright test
   ```
+> **Note:** Tests are configured to run in headed mode (`headless: false` in `playwright.config.js`), so the Chromium browser window will open visibly during execution.
 
 ## Generating Reports
 

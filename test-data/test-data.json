@@ -1,4 +1,3 @@
-
 {
   "invalidLogin": {
     "email": "Arif@gmail.com",
@@ -10,5 +9,12 @@
     "password": "Password@123"
   },
   "q3SearchTerm": "14.1-inch Laptop",
-  "q3Quantity": 2
+  "q3Quantity": 2,
+  "billingAddress": {
+    "country": "Bangladesh",
+    "city": "Dhaka",
+    "address": "Mohammadpur",
+    "zipCode": "1216",
+    "phone": "01675979838"
+  }
 }
