@@ -8,7 +8,8 @@
     "q1": "playwright test tests/q1-invalid-login.spec.js --project=chromium",
     "q2": "playwright test tests/q2-register-cart.spec.js --project=chromium",
     "q3": "playwright test tests/q3-search-checkout.spec.js --project=chromium",
-    "api": "newman run api-tests/Module09-JSONPlaceholder.postman_collection.json",
+    "api": "newman run \"api-tests/Module 09 - JSONPlaceholder Users API.postman_collection.json\""
+,
     "report:html": "playwright show-report",
     "report:allure": "allure generate allure-results --clean -o allure-report"
   },
